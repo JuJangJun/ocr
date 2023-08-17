@@ -11,9 +11,17 @@ class OCRmodel:
         """
         paddleOCR 모델을 이용해 이미지에서 텍스트를 추출하는 메소드
         """
-        self.result = self.ocr.ocr(image_path, cls=True)  # 모델 실행
-        self.result_ = self.result[0]
-        return self.result_  # 결과값 반환
+        result = self.ocr.ocr(image_path, cls=True)  # 모델 실행
+        result_ = result[0]
+
+        texts = []
+        confidences = []
+
+        for line in result_:
+            texts.append(line[1][0])
+            confidences.append(line[1][1])
+
+        return texts, confidences  # 결과값 반환
     
     # def len(self):  # 찾은 문자 개수 출력
     #     return len(self.result_)
